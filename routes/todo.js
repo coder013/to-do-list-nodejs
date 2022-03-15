@@ -1,21 +1,19 @@
 const fs = require("fs");
 
 exports.list = (req, res) => {
-    fs.existsSync("./todo_list.json", (exists) => {
-        if (exists) {
-            fs.readFile("./todo_list.json", {
-                "encoding" : "utf8"
-            }, (err, list) => {
-                res.json(list);
-            });
-        } else {
-            const list = { "list": [] };
+    const exists = fs.existsSync("./todo_list.json");
 
-            fs.writeFile("./todo_list.json", JSON.stringify(list), (err) => {
-                res.json(list);
-            });
-        }
-    });
+    if (exists) {
+        fs.readFile("./todo_list.json", "utf8", (err, data) => {
+            res.json(data);
+        });
+    } else {
+        const data = { "list": [] };
+
+        fs.writeFile("./todo_list.json", JSON.stringify(data), (err) => {
+            res.json(data);
+        });
+    }
 };
 
 exports.add = (req, res) => {
