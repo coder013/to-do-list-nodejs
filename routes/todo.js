@@ -5,7 +5,7 @@ exports.list = (req, res) => {
 
     if (exists) {
         fs.readFile("./todo_list.json", "utf8", (err, data) => {
-            res.json(data);
+            res.json(JSON.parse(data));
         });
     } else {
         const data = { "list": [] };
