@@ -1,0 +1,24 @@
+body {
+    padding: 10px 20px 10px 20px;
+}
+
+td {
+    vertical-align: middle;
+    word-break: break-all;
+}
+
+.input-container {
+    display: flex;
+}
+
+.input-todo {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.btn-add {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.table {
+    table-layout: fixed;
+}
