@@ -19,7 +19,7 @@ exports.list = (req, res) => {
 exports.add = (req, res) => {
     const todo = {
         "contents": req.body.contents,
-		"complete": false
+		"done": false
     };
 
     fs.readFile("./todo_list.json", {
@@ -35,13 +35,13 @@ exports.add = (req, res) => {
     });
 };
 
-exports.complete = (req, res) => {
+exports.done = (req, res) => {
     fs.readFile("./todo_list.json", {
         "encoding" : "utf8"
     }, (err, data) => {
         const jsonData = JSON.parse(data);
 
-        jsonData.list[req.body.index].complete = true;
+        jsonData.list[req.body.index].done = true;
 
         fs.writeFile("./todo_list.json", JSON.stringify(jsonData), (err) => {
             res.json(true);

@@ -4,26 +4,31 @@ function list() {
     .then((data) => {
         document.querySelector(".table > tbody").textContent = "";
 
-        for (const row of data.list) {
+        for (let i = 0; i < data.list.length; i++) {
+            const row = data.list[i];
             const tr = document.createElement("tr");
 
             const contents = document.createElement("td");
             contents.append(row.contents);
 
-            const done = document.createElement("td");
-
+            const doneElement = document.createElement("td");
             const doneButton = document.createElement("button");
             doneButton.classList.add("btn", "btn-success", "btn-done");
+
+            if (row.done) {
+                tr.classList.add("tr-done");
+                doneButton.setAttribute("disabled", "");
+            } else {
+                doneButton.addEventListener("click", () => { done(i) });
+            }
 
             const doneIcon = document.createElement("i");
             doneIcon.classList.add("bi", "bi-check-circle");
 
             doneButton.append(doneIcon);
+            doneElement.append(doneButton);
 
-            done.append(doneButton);
-
-            const remove = document.createElement("td");
-
+            const removeElement = document.createElement("td");
             const removeButton = document.createElement("button");
             removeButton.classList.add("btn", "btn-danger", "btn-remove");
 
@@ -31,13 +36,30 @@ function list() {
             removeIcon.classList.add("bi", "bi-x-circle");
 
             removeButton.append(removeIcon);
+            removeElement.append(removeButton);
 
-            remove.append(removeButton);
-
-            tr.append(contents, done, remove);
+            tr.append(contents, doneElement, removeElement);
 
             document.querySelector(".table > tbody").append(tr);
         }
+    })
+    .catch(() => console.log("[Error occurred]"));
+}
+
+function done(index) {
+    fetch("/done", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ "index": index }),
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error();
+        }
+
+        list();
     })
     .catch(() => console.log("[Error occurred]"));
 }

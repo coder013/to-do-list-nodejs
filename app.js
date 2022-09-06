@@ -28,7 +28,7 @@ if ("development" == app.get("env")) {
 app.get("/", routes.index);
 app.get("/list", todo.list);
 app.post("/add", todo.add);
-app.post("/complete", todo.complete);
+app.post("/done", todo.done);
 app.post("/del", todo.del);
 
 http.createServer(app).listen(app.get("port"), () => {
